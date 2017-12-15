@@ -33,6 +33,6 @@ SPLIT -  устранение двух последовательных прав
 
 Время работы методов от времени описывается формулами:
 
-+ Search - **O(h) + O(log2(N))**
-+ Insert - **O(h) + O(log2(N)) + O(1)**
-+ Remove - **O(h) + O(log2(N)) + O(1)**
++ Search - **O(log N)**
++ Insert - **O(log N)**
++ Remove - **O(log N)**
