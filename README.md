@@ -36,3 +36,5 @@ SPLIT -  устранение двух последовательных прав
 + Search - **O(log N)**
 + Insert - **O(log N)**
 + Remove - **O(log N)**
++ Skew - **O(log N)**
++ Split - **O(log N)**
