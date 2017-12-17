@@ -52,7 +52,7 @@ if(BUILD_EXAMPLES)
     endforeach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
 endif()
 
-install(TARGETS SplayTree
+install(TARGETS AA-tree
     EXPORT AA-tree-config
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
