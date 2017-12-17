@@ -6,7 +6,7 @@ HunterGate(
     SHA1 "8238708ef68f34a6cbba00896ca677ee6a00a5ab"
 )
 
-project(SplayTree)
+project(AA-tree)
 set(AA-TREE_VERSION_MAJOR 0)
 set(AA-TREE_VERSION_MINOR 1)
 set(AA-TREE_VERSION_PATCH 0)
