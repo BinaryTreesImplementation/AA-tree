@@ -1,6 +1,14 @@
 #include <iostream>     
 
-
+class Counter
+{
+protected:
+	size_t& Count() { static size_t counter = 0; return counter; }
+	
+public:
+	Counter() { ++Count(); }
+	~Counter() { --Count(); }
+};
 
 using namespace std;
 
@@ -10,7 +18,7 @@ class AATree {
 private:
 
 
-	struct AANode
+	struct AANode: public Counter
 	{
 		T element;
 		AANode    *left;
@@ -20,12 +28,16 @@ private:
 		AANode() : left(NULL), right(NULL), level(1) { }
 		AANode(const T & e, AANode *lt, AANode *rt, int lv = 1)
 			: element(e), left(lt), right(rt), level(lv) { }
+		size_t getCounter()
+		{
+			return Count();
+		}
 	};
 
 
 	AANode *root;
 	AANode *bottom;
-	int count;
+	
 
 public:
 
@@ -72,14 +84,11 @@ public:
 	void insert(const T & x)
 	{
 		insert(x, root);
-		count++;
-
 	}
-
+	
 	void remove(const T & x)
 	{
 		remove(x, root);
-		count--;
 	}
 
 
@@ -223,7 +232,7 @@ public:
 	}
 
 	int getcount() {
-		return count;
+		return root->getCounter();
 	}
 	
 	AANode* getroot() const {
