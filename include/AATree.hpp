@@ -3,7 +3,7 @@
 class Counter
 {
 protected:
-	size_t& Count() { static size_t counter = 0; return counter; }
+	size_t& Count() { static size_t counter = -1; return counter; }
 	
 public:
 	Counter() { ++Count(); }
@@ -231,7 +231,7 @@ public:
 	}
 
 	int getcount() {
-		return root->getCounter() - 1;
+		return root->getCounter();
 	}
 	
 	AANode* getroot() const {
