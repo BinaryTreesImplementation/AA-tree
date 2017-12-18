@@ -48,7 +48,6 @@ public:
 		bottom->left = bottom->right = bottom;
 		bottom->level = 0;
 		root = bottom;
-		count = 0;
 	}
 
 
