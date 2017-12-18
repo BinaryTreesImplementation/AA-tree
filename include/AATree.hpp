@@ -232,7 +232,7 @@ public:
 	}
 
 	int getcount() {
-		return root->getCounter();
+		return root->getCounter() - 1;
 	}
 	
 	AANode* getroot() const {
