@@ -17,7 +17,7 @@ TEST_CASE("insert_root", "[root]") {
 */
 
 TEST_CASE("insert2", "[ins2]") {
-	AATree<int> test1;
+	AATree<int> test2;
 	test2.insert(6);
 	test2.insert(2);
 	test2.insert(8);
