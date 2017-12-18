@@ -231,7 +231,7 @@ public:
 	}
 
 	int getcount() {
-		return root->getCounter - 1();
+		return root->getCounter () - 1;
 	}
 	
 	AANode* getroot() const {
