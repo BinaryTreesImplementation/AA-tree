@@ -176,12 +176,12 @@ public:
 	{
 		insert(x, root);
 	}
-
+/*
 	void remove(const T & x)
 	{
 		remove(x, root);
 	}
-
+*/
 
 
 	void insert(const T & x, AANode * & t)
