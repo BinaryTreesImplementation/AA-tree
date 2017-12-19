@@ -20,218 +20,180 @@ private:
 
 	struct AANode : public Counter
 	{
-		T key;
+		T element;
 		AANode    *left;
 		AANode    *right;
 		int        level;
-		AANode() : left(nullptr), right(nullptr), level(1) { }
-		AANode(const T& value) : left(nullptr), right(nullptr), level(1), key(value) { }
 
+		AANode() : left(nullptr), right(nullptr), level(1) { }
+		AANode(const T & e, AANode *lt, AANode *rt, int lv = 1)
+			: element(e), left(lt), right(rt), level(lv) { }
 		size_t getCounter()
 		{
 			return Count();
 		}
-	} *root;
+	};
+
+
+	AANode *root;
+	AANode *bottom;
+
 
 public:
 
 
 	AATree()
 	{
-		root = nullptr;
+		bottom = new AANode;
+		bottom->left = bottom->right = bottom;
+		bottom->level = 0;
+		root = bottom;
 	}
 
 	void deleteNode(AANode* temp)
 	{
-		if (temp != nullptr)
+		if (temp != bottom)
 		{
 			deleteNode(temp->left);
 			deleteNode(temp->right);
 			delete temp;
-
 		}
-		if (root->getCounter() == 0)
-			root = nullptr;
+		
+		
 	}
 
 	~AATree()
 	{
 		deleteNode(root);
+		delete bottom;
 	}
 
 
-
-	AANode *search(const T& value)const
+	AANode* search(const T & x) const
 	{
-		AANode *searchedElement = root;
-		
-		while (searchedElement != nullptr)
+		AANode *current = root;
+		bottom->element = x;
+
+		for (; ; )
 		{
-			if (searchedElement->key < value)
-			{
-				searchedElement = searchedElement->right;
-			}
-			else if (value < searchedElement->key)
-			{
-				searchedElement = searchedElement->left;
-			}
-			else if (searchedElement->key == value)
-			{
-				return searchedElement;
-			}
+			if (x < current->element)
+				current = current->left;
+			else if (current->element < x)
+				current = current->right;
+			else
+				return current;
 		}
-
-		return nullptr;
 	}
-/*
-	AANode* decreaseLevel(AANode* localRoot)
+
+
+
+	void printTree() const
 	{
-
-		int shouldBe = localRoot->left->level - localRoot->right->level + 1;
-		if (shouldBe < localRoot->level)
-		{
-			localRoot->level = shouldBe;
-			if (shouldBe < localRoot->right->level)
-				localRoot->right->level = shouldBe;
-		}
-		return localRoot;
+		if (root == bottom)
+			cout << "Empty tree" << endl;
+		else
+			printTree(root);
 	}
-
-	void remove(const T& key, AANode* localRoot)
-	{
-		AANode* parent = parentSearch(key);
-		//AANode *removing = parent->left->key == key ? parent->left : parent->right;
-
-
-		std::cout << parent->key;
-	}
-	/*
-	if(removing)
-	{
-	if (!removing->left && !removing->right)
-	{
-	parent->left == localRoot ? parent->left = nullptr : parent->right = nullptr;
-	delete localRoot;
-	return;
-	}
-
-	else if (localRoot->left == nullptr)
-	{
-	AANode* successor = nullptr;
-	if (localRoot->right)
-	{
-	successor = localRoot->right;
-	while (successor->left != nullptr)
-	{
-	parent = successor;
-	successor = successor->left;
-	}
-	}
-
-	localRoot->right = remove(successor->key, localRoot->left);
-	localRoot->key = successor->key;
-	if (parent)
-	{
-	parent->left = nullptr;
-	}
-	delete successor;
-	return;
-	}
-
-	else
-	{
-	AANode* predecessor = nullptr;
-	if (localRoot->left)
-	{
-	predecessor = localRoot->left;
-	while (predecessor->right != nullptr)
-	{
-	parent = predecessor;
-	predecessor = predecessor->right;
-	}
-	}
-
-	localRoot->left = remove(predecessor->key, localRoot->right);
-	localRoot->key = predecessor->key;
-	if (parent)
-	{
-	parent->right = nullptr;
-	}
-	delete predecessor;
-	return;
-	}
-	//localRoot = decreaseLevel(localRoot);
-
-	}
-	}
-	*/
-
-
-
-
-
 
 
 	void insert(const T & x)
 	{
 		insert(x, root);
 	}
-/*
+
 	void remove(const T & x)
 	{
 		remove(x, root);
 	}
-*/
+
 
 
 	void insert(const T & x, AANode * & t)
 	{
-		if (t == nullptr)
-		{
-			root = new AANode(x);
-		}
-		else if (x < t->key)
+		if (t == bottom)
+			t = new AANode(x, bottom, bottom);
+		else if (x < t->element)
 			insert(x, t->left);
-		else if (t->key < x)
+		else if (t->element < x)
 			insert(x, t->right);
 		else
 			return;
 
-		t = skew(t);
-		t = split(t);
+		skew(t);
+		split(t);
+	}
+
+	void remove(const T & x, AANode * & t)
+	{
+		static AANode *lastNode, *deletedNode = bottom;
+
+		if (t != bottom)
+		{
+			// Step 1: Search down the tree and set lastNode and deletedNode
+			lastNode = t;
+			if (x < t->element)
+				remove(x, t->left);
+			else
+			{
+				deletedNode = t;
+				remove(x, t->right);
+			}
+
+			// Step 2: If at the bottom of the tree and
+			//         x is present, we remove it
+			if (t == lastNode)
+			{
+				if (deletedNode == bottom || x != deletedNode->element)
+					return;   // Item not found; do nothing
+				deletedNode->element = t->element;
+				deletedNode = bottom;
+				t = t->right;
+				delete lastNode;
+			}
+
+			// Step 3: Otherwise, we are not at the bottom; rebalance
+			else
+				if (t->left->level < t->level - 1 ||
+					t->right->level < t->level - 1)
+				{
+					if (t->right->level > --t->level)
+						t->right->level = t->level;
+					skew(t);
+					skew(t->right);
+					skew(t->right->right);
+					split(t);
+					split(t->right);
+				}
+		}
+
 	}
 
 
 
-
-
-
-	AANode* skew(AANode * & t)
+	void printTree(AANode *t) const
 	{
-		if (t == nullptr)
-			return nullptr;
-		else if (t->left == nullptr)
-			return t;
-		else if (t->left->level == t->level)
+		if (t != bottom)
+		{
+			printTree(t->left);
+			cout << t->element << endl;
+			printTree(t->right);
+		}
+	}
+
+	void skew(AANode * & t)
+	{
+		if (t->left->level == t->level)
 			rotateWithLeftChild(t);
-		else
-			return t;
 	}
 
 
-	AANode* split(AANode * & t)
+	void split(AANode * & t)
 	{
-		if (t == nullptr)
-			return nullptr;
-		else if (t->right == nullptr || t->right->right == nullptr)
-			return t;
-		else if (t->right->right->level == t->level)
+		if (t->right->right->level == t->level)
 		{
 			rotateWithRightChild(t);
 			t->level++;
 		}
-		else
-			return t;
 	}
 
 	void rotateWithLeftChild(AANode * & k2)
@@ -263,7 +225,7 @@ public:
 	{
 		AANode *node = search(key);
 		if (node != nullptr && node->right != nullptr)
-			return new T(node->right->key);
+			return new T(node->right->element);
 		else
 			return nullptr;
 	}
@@ -271,7 +233,7 @@ public:
 	T* getKeyRoot()
 	{
 		if (root)
-			return new T(root->key);
+			return new T(root->element);
 		else
 			return nullptr;
 	}
@@ -279,13 +241,13 @@ public:
 	{
 		AANode *node = search(key);
 		if (node != nullptr && node->left != nullptr)
-			return new T(node->left->key);
+			return new T(node->left->element);
 		else
 			return nullptr;
 	}
 
 	int getcount() {
-		return root->getCounter();
+		return root->getCounter() - 1;
 	}
 
 	AANode* getroot() const {
