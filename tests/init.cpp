@@ -129,6 +129,7 @@ TEST_CASE("remove root", "[root]") {
    2     8   
 
 */
+/*
 TEST_CASE("remove_1", "[r1]") {
    AATree<int> test;
    test.insert(6);
@@ -162,7 +163,7 @@ TEST_CASE("remove_1", "[r1]") {
     /   \      (-8) ----->      2 -> 6 
    2     8   
 
-*/
+
 TEST_CASE("remove_2", "[r2]") {
    AATree<int> test;
    test.insert(6);
@@ -188,7 +189,7 @@ TEST_CASE("remove_2", "[r2]") {
   / \     / \                   7 --> 9     11    13
  7   9   11  13
  
-*/
+
 TEST_CASE("remove_3", "[r3]") {
    AATree<int> test;
    test.insert(10);
@@ -257,7 +258,7 @@ TEST_CASE("remove_3", "[r3]") {
   / \     / \                    7            9    11 ---> 13
  7   9   11  13
  
-*/
+
 TEST_CASE("remove_4", "[r4]") {
    AATree<int> test;
    test.insert(10);
@@ -296,4 +297,4 @@ TEST_CASE("remove_4", "[r4]") {
    REQUIRE(*test.getLevel(13) == 1);
 }
 
-
+*/
