@@ -115,7 +115,7 @@ TEST_CASE("insert4", "[ins4]") {
         REQUIRE(*test.getRightKey(1) == 2);
 }
 
-/*
+
 TEST_CASE("remove root", "[root]") {
    AATree<int> test;
    test.insert(15);
@@ -123,11 +123,11 @@ TEST_CASE("remove root", "[root]") {
    REQUIRE(test.getcount() == 0);
 }
 
-
+/*
       6                         
     /   \      (-2) ----->      6 -> 8 
    2     8   
-
+*/
 
 TEST_CASE("remove_1", "[r1]") {
    AATree<int> test;
@@ -157,11 +157,11 @@ TEST_CASE("remove_1", "[r1]") {
 }
 
 
-
+/*
       6                         
     /   \      (-8) ----->      2 -> 6 
    2     8   
-
+*/
 
 TEST_CASE("remove_2", "[r2]") {
    AATree<int> test;
@@ -181,13 +181,13 @@ TEST_CASE("remove_2", "[r2]") {
 }
 
 
-
+/*
       10                         
     /    \      (-8) ----->       10 --------> 12
    8      12                     /            /  \
   / \     / \                   7 --> 9     11    13
  7   9   11  13
- 
+ */
 
 TEST_CASE("remove_3", "[r3]") {
    AATree<int> test;
@@ -250,13 +250,13 @@ TEST_CASE("remove_3", "[r3]") {
 }
 
 
-
+/*
       10                         
     /    \      (-12) ----->       8 --------> 10
    8      12                      /            /  \
   / \     / \                    7            9    11 ---> 13
  7   9   11  13
- 
+ */
 
 TEST_CASE("remove_4", "[r4]") {
    AATree<int> test;
@@ -296,4 +296,3 @@ TEST_CASE("remove_4", "[r4]") {
    REQUIRE(*test.getLevel(13) == 1);
 }
 
-*/
