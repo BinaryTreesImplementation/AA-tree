@@ -1,5 +1,5 @@
 #include <iostream>     
-
+#ifndef Counter
 class Counter
 {
 protected:
@@ -9,6 +9,7 @@ public:
 	Counter() { ++Count(); }
 	~Counter() { --Count(); }
 };
+#endif
 
 using namespace std;
 
