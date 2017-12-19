@@ -115,7 +115,7 @@ TEST_CASE("insert4", "[ins4]") {
         REQUIRE(*test.getRightKey(1) == 2);
 }
 
-
+/*
 TEST_CASE("remove root", "[root]") {
    AATree<int> test;
    test.insert(15);
@@ -123,7 +123,7 @@ TEST_CASE("remove root", "[root]") {
    REQUIRE(test.getcount() == 0);
 }
 
-/*
+
       6                         
     /   \      (-2) ----->      6 -> 8 
    2     8   
